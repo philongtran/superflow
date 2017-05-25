@@ -1,12 +1,16 @@
 package de.superflow.rest;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Created by philo on 25.05.2017.
+ */
 @RestController
 //@RequestMapping("/superflow")
 public class SuperFlowController {
@@ -31,6 +35,7 @@ public class SuperFlowController {
                 returnList.add(gamerun);
             }
         }
+        returnList.sort(new MyComparator());
         return returnList;
     }
 
@@ -43,6 +48,7 @@ public class SuperFlowController {
                 returnList.add(gamerun);
             }
         }
+        returnList.sort(new MyComparator());
         return returnList;
     }
 
@@ -55,6 +61,7 @@ public class SuperFlowController {
                 returnList.add(gamerun);
             }
         }
+        returnList.sort(new MyComparator());
         return returnList;
     }
 
@@ -67,6 +74,7 @@ public class SuperFlowController {
                 returnList.add(gamerun);
             }
         }
+        returnList.sort(new MyComparator());
         return returnList;
     }
 
