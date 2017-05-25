@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/superflow")
+//@RequestMapping("/superflow")
 public class SuperFlowController {
 
     @Autowired
@@ -70,9 +70,19 @@ public class SuperFlowController {
         return returnList;
     }
 
-    @GetMapping("/login/{nickname}/{password}")
+    @PostMapping("/login")
+    public @ResponseBody boolean login(@RequestBody() Player object) {
+        Iterable<Player> it = playerRepository.findAll();
+        for (Player player : it) {
+            if(player.getNickname().toLowerCase().equals(object.getNickname().toLowerCase()) && player.getPassword().equals(object.getPassword())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @PostMapping("/login/{nickname}/{password}")
     public @ResponseBody boolean login(@PathVariable String nickname, @PathVariable String password) {
-        List<Player> returnList = new ArrayList<>();
         Iterable<Player> it = playerRepository.findAll();
         for (Player player : it) {
             if(player.getNickname().toLowerCase().equals(nickname.toLowerCase()) && player.getPassword().equals(password)) {
@@ -114,6 +124,34 @@ public class SuperFlowController {
             Player player = new Player(nickname, password);
             playerRepository.save(player);
             return true;
+        }
+        return false;
+    }
+
+    @PutMapping("/changepw")
+    public @ResponseBody boolean changepw(@RequestBody() Player object) {
+        Iterable<Player> it = playerRepository.findAll();
+
+        for (Player player : it) {
+            if(player.getNickname().toLowerCase().equals(object.getNickname().toLowerCase())) {
+                player.setPassword(object.getPassword());
+                playerRepository.save(player);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @PutMapping("/changepw/{nickname}/{password}")
+    public @ResponseBody boolean changepw(@PathVariable String nickname, @PathVariable String password) {
+        Iterable<Player> it = playerRepository.findAll();
+
+        for (Player player : it) {
+            if(player.getNickname().toLowerCase().equals(nickname.toLowerCase())) {
+                player.setPassword(password);
+                playerRepository.save(player);
+                return true;
+            }
         }
         return false;
     }
