@@ -8,7 +8,7 @@ import javax.persistence.Id;
  * Created by philo on 25.05.2017.
  */
 @Entity
-public class Player {
+public class PlayerSF {
 
     @Id
     @Column(name="nickname")
@@ -16,9 +16,9 @@ public class Player {
     @Column(name="password")
     private String password;
 
-    public Player(){}
+    public PlayerSF(){}
 
-    public Player(String nickname, String password) {
+    public PlayerSF(String nickname, String password) {
         this.nickname = nickname;
         this.password = password;
     }

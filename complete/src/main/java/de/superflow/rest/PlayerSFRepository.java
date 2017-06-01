@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 /**
  * Created by philo on 25.05.2017.
  */
-public interface PlayerRepository extends CrudRepository<Player, Long>{
+public interface PlayerSFRepository extends CrudRepository<PlayerSF, Long>{
 }

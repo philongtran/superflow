@@ -13,29 +13,29 @@ import org.springframework.web.bind.annotation.*;
 public class SuperFlowController {
 
     @Autowired
-    private GamerunRepository gamerunRepository;
+    private HighscoreSFRepository highscoreSFRepository;
 
     @Autowired
-    private PlayerRepository playerRepository;
+    private PlayerSFRepository playerSFRepository;
 
     private String auth = "secret";
 
     @GetMapping("/getALL")
-    public @ResponseBody Iterable<Gamerun> getAllDB(@RequestHeader String auth) {
+    public @ResponseBody Iterable<HighscoreSF> getAllDB(@RequestHeader String auth) {
         if(this.auth.equals(auth)) {
-            return gamerunRepository.findAll();
+            return highscoreSFRepository.findAll();
         }
         return null;
     }
 
     @GetMapping("/get")
-    public @ResponseBody List<Gamerun> getDB(@RequestHeader String auth) {
+    public @ResponseBody List<HighscoreSF> getDB(@RequestHeader String auth) {
         if(this.auth.equals(auth)) {
-            List<Gamerun> returnList = new ArrayList<>();
-            Iterable<Gamerun> it = gamerunRepository.findAll();
-            for (Gamerun gamerun : it) {
-                if (gamerun.getGameName().toLowerCase().equals("superflow")) {
-                    returnList.add(gamerun);
+            List<HighscoreSF> returnList = new ArrayList<>();
+            Iterable<HighscoreSF> it = highscoreSFRepository.findAll();
+            for (HighscoreSF highscoreSF : it) {
+                if (highscoreSF.getGameName().toLowerCase().equals("superflow")) {
+                    returnList.add(highscoreSF);
                 }
             }
             returnList.sort(new MyComparator());
@@ -45,13 +45,13 @@ public class SuperFlowController {
     }
 
     @GetMapping("/get/player/{nickname}")
-    public @ResponseBody List<Gamerun> getDB(@PathVariable String nickname, @RequestHeader String auth) {
+    public @ResponseBody List<HighscoreSF> getDB(@PathVariable String nickname, @RequestHeader String auth) {
         if(this.auth.equals(auth)) {
-            List<Gamerun> returnList = new ArrayList<>();
-            Iterable<Gamerun> it = gamerunRepository.findAll();
-            for (Gamerun gamerun : it) {
-                if (gamerun.getNickname().toLowerCase().equals(nickname.toLowerCase()) && gamerun.getGameName().toLowerCase().equals("superflow")) {
-                    returnList.add(gamerun);
+            List<HighscoreSF> returnList = new ArrayList<>();
+            Iterable<HighscoreSF> it = highscoreSFRepository.findAll();
+            for (HighscoreSF highscoreSF : it) {
+                if (highscoreSF.getNickname().toLowerCase().equals(nickname.toLowerCase()) && highscoreSF.getGameName().toLowerCase().equals("superflow")) {
+                    returnList.add(highscoreSF);
                 }
             }
             returnList.sort(new MyComparator());
@@ -60,13 +60,13 @@ public class SuperFlowController {
     }
 
     @GetMapping("/get/level/{level}")
-    public @ResponseBody List<Gamerun> getDB(@PathVariable int level, @RequestHeader String auth) {
+    public @ResponseBody List<HighscoreSF> getDB(@PathVariable int level, @RequestHeader String auth) {
         if(this.auth.equals(auth)) {
-            List<Gamerun> returnList = new ArrayList<>();
-            Iterable<Gamerun> it = gamerunRepository.findAll();
-            for (Gamerun gamerun : it) {
-                if (gamerun.getLevel() == level && gamerun.getGameName().toLowerCase().equals("superflow")) {
-                    returnList.add(gamerun);
+            List<HighscoreSF> returnList = new ArrayList<>();
+            Iterable<HighscoreSF> it = highscoreSFRepository.findAll();
+            for (HighscoreSF highscoreSF : it) {
+                if (highscoreSF.getLevel() == level && highscoreSF.getGameName().toLowerCase().equals("superflow")) {
+                    returnList.add(highscoreSF);
                 }
             }
             returnList.sort(new MyComparator());
@@ -76,13 +76,13 @@ public class SuperFlowController {
     }
 
     @GetMapping("/get/player/{nickname}/{level}")
-    public @ResponseBody List<Gamerun> getDB(@PathVariable String nickname, @PathVariable int level, @RequestHeader String auth) {
+    public @ResponseBody List<HighscoreSF> getDB(@PathVariable String nickname, @PathVariable int level, @RequestHeader String auth) {
         if(this.auth.equals(auth)) {
-            List<Gamerun> returnList = new ArrayList<>();
-            Iterable<Gamerun> it = gamerunRepository.findAll();
-            for (Gamerun gamerun : it) {
-                if (gamerun.getNickname().toLowerCase().equals(nickname.toLowerCase()) && gamerun.getLevel() == level && gamerun.getGameName().toLowerCase().equals("superflow")) {
-                    returnList.add(gamerun);
+            List<HighscoreSF> returnList = new ArrayList<>();
+            Iterable<HighscoreSF> it = highscoreSFRepository.findAll();
+            for (HighscoreSF highscoreSF : it) {
+                if (highscoreSF.getNickname().toLowerCase().equals(nickname.toLowerCase()) && highscoreSF.getLevel() == level && highscoreSF.getGameName().toLowerCase().equals("superflow")) {
+                    returnList.add(highscoreSF);
                 }
             }
             returnList.sort(new MyComparator());
@@ -92,10 +92,10 @@ public class SuperFlowController {
     }
 
     @PostMapping("/login")
-    public @ResponseBody boolean login(@RequestBody() Player object, @RequestHeader String auth) {
+    public @ResponseBody boolean login(@RequestBody() PlayerSF object, @RequestHeader String auth) {
         if(this.auth.equals(auth)) {
-            Iterable<Player> it = playerRepository.findAll();
-            for (Player player : it) {
+            Iterable<PlayerSF> it = playerSFRepository.findAll();
+            for (PlayerSF player : it) {
                 if (player.getNickname().toLowerCase().equals(object.getNickname().toLowerCase()) && player.getPassword().equals(object.getPassword())) {
                     return true;
                 }
@@ -108,8 +108,8 @@ public class SuperFlowController {
     @PostMapping("/login/{nickname}/{password}")
     public @ResponseBody boolean login(@PathVariable String nickname, @PathVariable String password, @RequestHeader String auth) {
         if(this.auth.equals(auth)) {
-            Iterable<Player> it = playerRepository.findAll();
-            for (Player player : it) {
+            Iterable<PlayerSF> it = playerSFRepository.findAll();
+            for (PlayerSF player : it) {
                 if (player.getNickname().toLowerCase().equals(nickname.toLowerCase()) && player.getPassword().equals(password)) {
                     return true;
                 }
@@ -120,19 +120,19 @@ public class SuperFlowController {
     }
 
     @PostMapping("/register")
-    public @ResponseBody boolean register(@RequestBody() Player object, @RequestHeader String auth) {
+    public @ResponseBody boolean register(@RequestBody() PlayerSF object, @RequestHeader String auth) {
         if(this.auth.equals(auth)) {
-            Iterable<Player> it = playerRepository.findAll();
+            Iterable<PlayerSF> it = playerSFRepository.findAll();
             boolean used = false;
 
-            for (Player player : it) {
+            for (PlayerSF player : it) {
                 if (player.getNickname().toLowerCase().equals(object.getNickname().toLowerCase())) {
                     used = true;
                 }
             }
             if (!used) {
-                Player player = new Player(object.getNickname(), object.getPassword());
-                playerRepository.save(player);
+                PlayerSF player = new PlayerSF(object.getNickname(), object.getPassword());
+                playerSFRepository.save(player);
                 return true;
             }
             return false;
@@ -143,17 +143,17 @@ public class SuperFlowController {
     @PostMapping("/register/{nickname}/{password}")
     public @ResponseBody boolean register(@PathVariable String nickname, @PathVariable String password, @RequestHeader String auth) {
         if(this.auth.equals(auth)) {
-            Iterable<Player> it = playerRepository.findAll();
+            Iterable<PlayerSF> it = playerSFRepository.findAll();
             boolean used = false;
 
-            for (Player player : it) {
+            for (PlayerSF player : it) {
                 if (player.getNickname().toLowerCase().equals(nickname.toLowerCase())) {
                     used = true;
                 }
             }
             if (!used) {
-                Player player = new Player(nickname, password);
-                playerRepository.save(player);
+                PlayerSF player = new PlayerSF(nickname, password);
+                playerSFRepository.save(player);
                 return true;
             }
             return false;
@@ -162,14 +162,14 @@ public class SuperFlowController {
     }
 
     @PutMapping("/changepw")
-    public @ResponseBody boolean changepw(@RequestBody() Player object, @RequestHeader String auth) {
+    public @ResponseBody boolean changepw(@RequestBody() PlayerSF object, @RequestHeader String auth) {
         if(this.auth.equals(auth)) {
-            Iterable<Player> it = playerRepository.findAll();
+            Iterable<PlayerSF> it = playerSFRepository.findAll();
 
-            for (Player player : it) {
+            for (PlayerSF player : it) {
                 if (player.getNickname().toLowerCase().equals(object.getNickname().toLowerCase())) {
                     player.setPassword(object.getPassword());
-                    playerRepository.save(player);
+                    playerSFRepository.save(player);
                     return true;
                 }
             }
@@ -181,12 +181,12 @@ public class SuperFlowController {
     @PutMapping("/changepw/{nickname}/{password}")
     public @ResponseBody boolean changepw(@PathVariable String nickname, @PathVariable String password, @RequestHeader String auth) {
         if(this.auth.equals(auth)) {
-            Iterable<Player> it = playerRepository.findAll();
+            Iterable<PlayerSF> it = playerSFRepository.findAll();
 
-            for (Player player : it) {
+            for (PlayerSF player : it) {
                 if (player.getNickname().toLowerCase().equals(nickname.toLowerCase())) {
                     player.setPassword(password);
-                    playerRepository.save(player);
+                    playerSFRepository.save(player);
                     return true;
                 }
             }
@@ -196,14 +196,14 @@ public class SuperFlowController {
     }
 
     @PostMapping("/set")
-    public @ResponseBody List<Gamerun> setDB(@RequestBody() Gamerun highscore, @RequestHeader String auth) {
+    public @ResponseBody List<HighscoreSF> setDB(@RequestBody() HighscoreSF highscore, @RequestHeader String auth) {
         if(this.auth.equals(auth)) {
-            Gamerun gamerun = new Gamerun(highscore.getNickname(), highscore.getPoint(), highscore.getLevel(), new Date());
-            gamerunRepository.save(gamerun);
+            HighscoreSF highscoreSF = new HighscoreSF(highscore.getNickname(), highscore.getPoint(), highscore.getLevel(), new Date());
+            highscoreSFRepository.save(highscoreSF);
 
-            List<Gamerun> returnList = new ArrayList<>();
-            Iterable<Gamerun> it = gamerunRepository.findAll();
-            for (Gamerun gamerunvar : it) {
+            List<HighscoreSF> returnList = new ArrayList<>();
+            Iterable<HighscoreSF> it = highscoreSFRepository.findAll();
+            for (HighscoreSF gamerunvar : it) {
                 if (gamerunvar.getGameName().toLowerCase().equals("superflow")) {
                     returnList.add(gamerunvar);
                 }

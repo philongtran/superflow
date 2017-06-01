@@ -11,32 +11,32 @@ import java.util.Date;
  * Created by philo on 25.05.2017.
  */
 @Entity
-public class Gamerun {
+public class HighscoreSF {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
 
-    @Column(name="playerid")
+    @Column(name="Nickname")
     private String nickname;
-    @Column(name="gameid")
+    @Column(name="Gamename")
     private String gameName = "SuperFlow";
-    @Column(name="points")
+    @Column(name="point")
     private int point;
-    //@Column(name="level")
-    //private int level;
-    @Column(name="time")
-    private Date time;
+    @Column(name="level")
+    private int level;
+    @Column(name="date")
+    private Date date;
 
-    public Gamerun() {
+    public HighscoreSF() {
 
     }
 
-    public Gamerun(String nickname, int point, int level, Date time) {
+    public HighscoreSF(String nickname, int point, int level, Date date) {
         this.nickname = nickname;
         this.point = point;
-        //this.level = level;
-        this.time = time;
+        this.level = level;
+        this.date = date;
     }
 
     public String getNickname() {
@@ -52,10 +52,10 @@ public class Gamerun {
     }
 
     public int getLevel() {
-        return 1;
+        return this.level;
     }
 
-    public Date getTime() {
-        return this.time;
+    public Date getDate() {
+        return this.date;
     }
 }
