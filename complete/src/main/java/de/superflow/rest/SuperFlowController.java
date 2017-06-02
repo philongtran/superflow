@@ -201,6 +201,7 @@ public class SuperFlowController {
             HighscoreSF highscoreSF = new HighscoreSF(highscore.getNickname(), highscore.getPoint(), highscore.getLevel(), new Date());
             highscoreSFRepository.save(highscoreSF);
 
+            /*
             List<HighscoreSF> returnList = new ArrayList<>();
             Iterable<HighscoreSF> it = highscoreSFRepository.findAll();
             for (HighscoreSF gamerunvar : it) {
@@ -209,9 +210,9 @@ public class SuperFlowController {
                 }
             }
             returnList.sort(new MyComparator());
-            return returnList;
+            return returnList;*/
 
-            //return gamerunRepository.findAll();
+            return highscoreSFRepository.findByLevelAndGameNameOrderByPointDesc(highscore.getLevel(), "superflow");
         }
         return null;
     }
