@@ -62,15 +62,15 @@ public class SuperFlowController {
     @GetMapping("/get/level/{level}")
     public @ResponseBody List<HighscoreSF> getDB(@PathVariable int level, @RequestHeader String auth) {
         if(this.auth.equals(auth)) {
-            List<HighscoreSF> returnList = new ArrayList<>();
-            Iterable<HighscoreSF> it = highscoreSFRepository.findAll();
-            for (HighscoreSF highscoreSF : it) {
-                if (highscoreSF.getLevel() == level && highscoreSF.getGameName().toLowerCase().equals("superflow")) {
-                    returnList.add(highscoreSF);
-                }
-            }
-            returnList.sort(new MyComparator());
-            return returnList;
+            return highscoreSFRepository.findByLevelAndGameNameOrderByPointDesc(level, "superflow");
+        }
+        return null;
+    }
+
+    @GetMapping("/get/level/top10/{level}")
+    public @ResponseBody List<HighscoreSF> getDBTop10(@PathVariable int level, @RequestHeader String auth) {
+        if(this.auth.equals(auth)) {
+            return highscoreSFRepository.findTop10ByLevelAndGameNameOrderByPointDesc(level, "superflow");
         }
         return null;
     }
