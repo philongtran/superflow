@@ -3,13 +3,14 @@ package de.superflow.rest;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by philo on 25.05.2017.
  */
 @RestController
-@RequestMapping("/superflow")
+//@RequestMapping("/superflow")
 public class SuperFlowController {
 
     @Autowired
@@ -19,6 +20,7 @@ public class SuperFlowController {
     private PlayerSFRepository playerSFRepository;
 
     private String auth = "secret";
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @GetMapping("/getALL")
     public @ResponseBody Iterable<HighscoreSF> getAllDB(@RequestHeader String auth) {
@@ -96,7 +98,7 @@ public class SuperFlowController {
         if(this.auth.equals(auth)) {
             Iterable<PlayerSF> it = playerSFRepository.findAll();
             for (PlayerSF player : it) {
-                if (player.getNickname().toLowerCase().equals(object.getNickname().toLowerCase()) && player.getPassword().equals(object.getPassword())) {
+                if (player.getNickname().toLowerCase().equals(object.getNickname().toLowerCase()) && encoder.matches(object.getPassword(), player.getPassword())) {
                     return true;
                 }
             }
@@ -110,7 +112,7 @@ public class SuperFlowController {
         if(this.auth.equals(auth)) {
             Iterable<PlayerSF> it = playerSFRepository.findAll();
             for (PlayerSF player : it) {
-                if (player.getNickname().toLowerCase().equals(nickname.toLowerCase()) && player.getPassword().equals(password)) {
+                if (player.getNickname().toLowerCase().equals(nickname.toLowerCase()) && encoder.matches(password, player.getPassword())) {
                     return true;
                 }
             }
@@ -131,7 +133,7 @@ public class SuperFlowController {
                 }
             }
             if (!used) {
-                PlayerSF player = new PlayerSF(object.getNickname(), object.getPassword());
+                PlayerSF player = new PlayerSF(object.getNickname(), encoder.encode(object.getPassword()));
                 playerSFRepository.save(player);
                 return true;
             }
@@ -152,7 +154,7 @@ public class SuperFlowController {
                 }
             }
             if (!used) {
-                PlayerSF player = new PlayerSF(nickname, password);
+                PlayerSF player = new PlayerSF(nickname, encoder.encode(password));
                 playerSFRepository.save(player);
                 return true;
             }
@@ -168,7 +170,7 @@ public class SuperFlowController {
 
             for (PlayerSF player : it) {
                 if (player.getNickname().toLowerCase().equals(object.getNickname().toLowerCase())) {
-                    player.setPassword(object.getPassword());
+                    player.setPassword(encoder.encode(object.getPassword()));
                     playerSFRepository.save(player);
                     return true;
                 }
@@ -185,7 +187,7 @@ public class SuperFlowController {
 
             for (PlayerSF player : it) {
                 if (player.getNickname().toLowerCase().equals(nickname.toLowerCase())) {
-                    player.setPassword(password);
+                    player.setPassword(encoder.encode(password));
                     playerSFRepository.save(player);
                     return true;
                 }
