@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
  * Created by philo on 25.05.2017.
  */
 @RestController
-//@RequestMapping("/superflow")
+@RequestMapping("/superflow")
 public class SuperFlowController {
 
     @Autowired
