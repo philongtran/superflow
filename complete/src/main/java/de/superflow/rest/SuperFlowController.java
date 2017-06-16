@@ -340,6 +340,29 @@ public class SuperFlowController {
         return null;
     }
 
+    @PostMapping("/set/{nickname}/{level}/{point}")
+    public @ResponseBody List<Highscore> setDB2(@PathVariable String nickname, @PathVariable int level, @PathVariable int point, @RequestHeader String auth) {
+        if(this.auth.equals(auth)) {
+            Highscore highscoreSF = new Highscore(getId(nickname), point, level, new Timestamp(new java.util.Date().getTime()));
+            //highscoreSF.setPlayerid(getId(highscore.getNickname()));
+            highscoreRepository.save(highscoreSF);
+
+            /*
+            List<Highscore> returnList = new ArrayList<>();
+            Iterable<Highscore> it = highscoreRepository.findAll();
+            for (Highscore gamerunvar : it) {
+                if (gamerunvar.getGameName().toLowerCase().equals("superflow")) {
+                    returnList.add(gamerunvar);
+                }
+            }
+            returnList.sort(new MyComparator());
+            return returnList;*/
+
+            return highscoreRepository.findByLevelAndGameNameOrderByPointDesc(level, "superflow");
+        }
+        return null;
+    }
+
     /**
      * do not use
      *
