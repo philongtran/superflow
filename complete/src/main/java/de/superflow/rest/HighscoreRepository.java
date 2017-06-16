@@ -9,6 +9,6 @@ import java.util.List;
  */
 public interface HighscoreRepository extends CrudRepository<Highscore, Long> {
     public List<Highscore> findByLevelOrderByPointDesc(int level);
-    public List<Highscore> findByLevelAndGameNameOrderByPointDesc(int level, String gamename);
+    public List<Highscore> findTop100ByLevelAndGameNameOrderByPointDesc(int level, String gamename);
     public List<Highscore> findTop10ByLevelAndGameNameOrderByPointDesc(int level, String gamename);
 }

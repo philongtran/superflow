@@ -93,7 +93,7 @@ public class SuperFlowController {
         if(this.auth.equals(auth)) {
 
             List<HighscoreSend> highscoreSends = new ArrayList<>();
-            List<Highscore> highscores = highscoreRepository.findByLevelAndGameNameOrderByPointDesc(level, "superflow");
+            List<Highscore> highscores = highscoreRepository.findTop100ByLevelAndGameNameOrderByPointDesc(level, "superflow");
             for (Highscore highscore : highscores) {
                 HighscoreSend highscoreSend = new HighscoreSend(getNickname(highscore.getNickname()), highscore.getPoint(), highscore.getLevel(), highscore.getDate());
                 //highscoreSends.add(new HighscoreSend(highscore.getNickname(), highscore.getPoint(), highscore.getLevel(), new Timestamp(new java.util.Date().getTime())));
@@ -335,7 +335,7 @@ public class SuperFlowController {
             returnList.sort(new MyComparator());
             return returnList;*/
 
-            return highscoreRepository.findByLevelAndGameNameOrderByPointDesc(highscore.getLevel(), "superflow");
+            return highscoreRepository.findTop100ByLevelAndGameNameOrderByPointDesc(highscore.getLevel(), "superflow");
         }
         return null;
     }
@@ -358,7 +358,7 @@ public class SuperFlowController {
             returnList.sort(new MyComparator());
             return returnList;*/
 
-            return highscoreRepository.findByLevelAndGameNameOrderByPointDesc(level, "superflow");
+            return highscoreRepository.findTop100ByLevelAndGameNameOrderByPointDesc(level, "superflow");
         }
         return null;
     }
@@ -388,7 +388,7 @@ public class SuperFlowController {
             returnList.sort(new MyComparator());
             return returnList;*/
 
-            return highscoreRepository.findByLevelAndGameNameOrderByPointDesc(highscore.getLevel(), "superflow");
+            return highscoreRepository.findTop100ByLevelAndGameNameOrderByPointDesc(highscore.getLevel(), "superflow");
         }
         return null;
     }
