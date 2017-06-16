@@ -3,6 +3,7 @@ package de.superflow.rest;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.UUID;
 
 /**
  * Created by Long on 16.06.2017.
@@ -12,7 +13,7 @@ public class Player {
 
     @Id
     @Column(name="id")
-    private String id;
+    private String id = UUID.randomUUID().toString();
     @Column(name="nickname")
     private String nickname;
     @Column(name="password")

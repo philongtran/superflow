@@ -52,4 +52,6 @@ public class Highscore {
     public Timestamp getDate() {
         return this.timestamp;
     }
+
+    public void setPlayerid(String uuid) {this.playerid = uuid;}
 }
