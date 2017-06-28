@@ -5,7 +5,9 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 /**
- * Created by Long on 16.06.2017.
+ * @author Phi Long Tran
+ *
+ * This class creates the sql commands for the db server
  */
 public interface HighscoreRepository extends CrudRepository<Highscore, Long> {
     public List<Highscore> findByLevelOrderByPointDesc(int level);

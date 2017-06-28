@@ -8,7 +8,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Created by philo on 25.05.2017.
+ * @author Phi Long Tran
+ *
+ * this class represents the rest controller
  */
 @RestController
 @RequestMapping("/superflow")
@@ -24,65 +26,7 @@ public class SuperFlowController {
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     /**
-     * do not use
-     *
-     * @param auth
-     * @return
-     */
-    @GetMapping("/getALL")
-    public @ResponseBody Iterable<Highscore> getAllDB(@RequestHeader String auth) {
-        if(this.auth.equals(auth)) {
-            return highscoreRepository.findAll();
-        }
-        return null;
-    }
-
-    /**
-     * do not use
-     *
-     * @param auth
-     * @return
-     */
-    @GetMapping("/get")
-    public @ResponseBody List<Highscore> getDB(@RequestHeader String auth) {
-        if(this.auth.equals(auth)) {
-            List<Highscore> returnList = new ArrayList<>();
-            Iterable<Highscore> it = highscoreRepository.findAll();
-            for (Highscore highscoreSF : it) {
-                if (highscoreSF.getGameName().toLowerCase().equals("superflow")) {
-                    returnList.add(highscoreSF);
-                }
-            }
-            returnList.sort(new MyComparator());
-            return returnList;
-        }
-        return null;
-    }
-
-    /**
-     * do not use
-     *
-     * @param nickname
-     * @param auth
-     * @return
-     */
-    @GetMapping("/get/player/{nickname}")
-    public @ResponseBody List<Highscore> getDB(@PathVariable String nickname, @RequestHeader String auth) {
-        if(this.auth.equals(auth)) {
-            List<Highscore> returnList = new ArrayList<>();
-            Iterable<Highscore> it = highscoreRepository.findAll();
-            for (Highscore highscoreSF : it) {
-                if (highscoreSF.getNickname().toLowerCase().equals(nickname.toLowerCase()) && highscoreSF.getGameName().toLowerCase().equals("superflow")) {
-                    returnList.add(highscoreSF);
-                }
-            }
-            returnList.sort(new MyComparator());
-            return returnList;
-        } return null;
-    }
-
-    /**
-     * use this
+     * This method returns the highscore of a specific level
      * 
      * @param level
      * @param auth
@@ -108,7 +52,7 @@ public class SuperFlowController {
     }
 
     /**
-     * use this
+     * This method returns the top 10 of a specific level
      *
      * @param level
      * @param auth
@@ -130,53 +74,9 @@ public class SuperFlowController {
         return null;
     }
 
-    /**
-     * do not use
-     *
-     * @param nickname
-     * @param level
-     * @param auth
-     * @return
-     */
-    @GetMapping("/get/player/{nickname}/{level}")
-    public @ResponseBody List<Highscore> getDB(@PathVariable String nickname, @PathVariable int level, @RequestHeader String auth) {
-        if(this.auth.equals(auth)) {
-            List<Highscore> returnList = new ArrayList<>();
-            Iterable<Highscore> it = highscoreRepository.findAll();
-            for (Highscore highscoreSF : it) {
-                if (highscoreSF.getNickname().toLowerCase().equals(nickname.toLowerCase()) && highscoreSF.getLevel() == level && highscoreSF.getGameName().toLowerCase().equals("superflow")) {
-                    returnList.add(highscoreSF);
-                }
-            }
-            returnList.sort(new MyComparator());
-            return returnList;
-        }
-        return null;
-    }
 
     /**
-     * do not use
-     *
-     * @param object
-     * @param auth
-     * @return
-     */
-    @PostMapping("/login")
-    public @ResponseBody boolean login(@RequestBody() PlayerSF object, @RequestHeader String auth) {
-        if(this.auth.equals(auth)) {
-            Iterable<Player> it = playerRepository.findAll();
-            for (Player player : it) {
-                if (player.getNickname().toLowerCase().equals(object.getNickname().toLowerCase()) && encoder.matches(object.getPassword(), player.getPassword())) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        return false;
-    }
-
-    /**
-     * use this
+     * This method is used for player login
      *
      * @param nickname
      * @param password
@@ -197,33 +97,6 @@ public class SuperFlowController {
         return false;
     }
 
-    /**
-     * do not use
-     *
-     * @param object
-     * @param auth
-     * @return
-     */
-    @PostMapping("/register")
-    public @ResponseBody boolean register(@RequestBody() Player object, @RequestHeader String auth) {
-        if(this.auth.equals(auth)) {
-            Iterable<Player> it = playerRepository.findAll();
-            boolean used = false;
-
-            for (Player player : it) {
-                if (player.getNickname().toLowerCase().equals(object.getNickname().toLowerCase())) {
-                    used = true;
-                }
-            }
-            if (!used) {
-                Player player = new Player(object.getNickname(), encoder.encode(object.getPassword()));
-                playerRepository.save(player);
-                return true;
-            }
-            return false;
-        }
-        return false;
-    }
 
     /**
      * use this
@@ -254,32 +127,9 @@ public class SuperFlowController {
         return false;
     }
 
-    /**
-     * do not use
-     *
-     * @param object
-     * @param auth
-     * @return
-     */
-    @PutMapping("/changepw")
-    public @ResponseBody boolean changepw(@RequestBody() PlayerSF object, @RequestHeader String auth) {
-        if(this.auth.equals(auth)) {
-            Iterable<Player> it = playerRepository.findAll();
-
-            for (Player player : it) {
-                if (player.getNickname().toLowerCase().equals(object.getNickname().toLowerCase())) {
-                    player.setPassword(encoder.encode(object.getPassword()));
-                    playerRepository.save(player);
-                    return true;
-                }
-            }
-            return false;
-        }
-        return false;
-    }
 
     /**
-     * use this
+     * This method is used to change the users password
      *
      * @param nickname
      * @param password
@@ -310,7 +160,7 @@ public class SuperFlowController {
     }
 
     /**
-     * use this
+     * This method is used to register a new score via body
      *
      * @param nickname
      * @param highscore
@@ -340,6 +190,15 @@ public class SuperFlowController {
         return null;
     }
 
+    /**
+     * This method is used to register a new score
+     *
+     * @param nickname
+     * @param level
+     * @param point
+     * @param auth
+     * @return
+     */
     @PostMapping("/set/{nickname}/{level}/{point}")
     public @ResponseBody List<Highscore> setDB2(@PathVariable String nickname, @PathVariable int level, @PathVariable int point, @RequestHeader String auth) {
         if(this.auth.equals(auth)) {
@@ -364,40 +223,22 @@ public class SuperFlowController {
     }
 
     /**
-     * do not use
+     * This method returns a nickname if only id is known
      *
-     * @param highscore
-     * @param auth
+     * @param uuid
      * @return
      */
-    @PostMapping("/set")
-    public @ResponseBody List<Highscore> setDB(@RequestBody() Highscore highscore, @RequestHeader String auth) {
-        if(this.auth.equals(auth)) {
-            Highscore highscoreSF = new Highscore(highscore.getNickname(), highscore.getPoint(), highscore.getLevel(), new Timestamp(new java.util.Date().getTime()));
-            highscoreSF.setPlayerid(getId(highscore.getNickname()));
-            highscoreRepository.save(highscoreSF);
-
-            /*
-            List<Highscore> returnList = new ArrayList<>();
-            Iterable<Highscore> it = highscoreRepository.findAll();
-            for (Highscore gamerunvar : it) {
-                if (gamerunvar.getGameName().toLowerCase().equals("superflow")) {
-                    returnList.add(gamerunvar);
-                }
-            }
-            returnList.sort(new MyComparator());
-            return returnList;*/
-
-            return highscoreRepository.findTop100ByLevelAndGameNameOrderByPointDesc(highscore.getLevel(), "superflow");
-        }
-        return null;
-    }
-
     private String getNickname(String uuid) {
         List<Player> player = playerRepository.findById(uuid);
         return player.get(0).getNickname();
     }
 
+    /**
+     * This method gets the id if nickname is known
+     *
+     * @param nickname
+     * @return
+     */
     private String getId(String nickname) {
         List<Player> player = playerRepository.findByNickname(nickname);
         return player.get(0).getID();

@@ -6,7 +6,9 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 
 /**
- * Created by philo on 25.05.2017.
+ * @author Phi Long Tran
+ *
+ * This is the class which starts the webservice
  */
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer{

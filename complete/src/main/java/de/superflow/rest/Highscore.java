@@ -4,7 +4,9 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
- * Created by Long on 16.06.2017.
+ * @author Phi Long Tran
+ *
+ * this is the entity class for the highscore table
  */
 @Entity
 public class Highscore {

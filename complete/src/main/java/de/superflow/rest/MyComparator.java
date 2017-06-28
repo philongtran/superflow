@@ -3,7 +3,9 @@ package de.superflow.rest;
 import java.util.Comparator;
 
 /**
- * Created by philo on 25.05.2017.
+ * @author Phi Long Tran
+ *
+ * This is the comparator to sort the highscores descending
  */
 public class MyComparator implements Comparator<Highscore>{
     @Override

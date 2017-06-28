@@ -6,7 +6,9 @@ import javax.persistence.Id;
 import java.util.UUID;
 
 /**
- * Created by Long on 16.06.2017.
+ * @author Phi Long Tran
+ *
+ * This entity class represents the player table in the db
  */
 @Entity
 public class Player {

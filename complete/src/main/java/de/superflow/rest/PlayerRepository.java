@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Created by Long on 16.06.2017.
+ * @author Phi Long Tran
+ *
+ * This class creates the sql commands for the player table
  */
 public interface PlayerRepository extends CrudRepository<Player, Long> {
     public List<Player> findById(String uuid);

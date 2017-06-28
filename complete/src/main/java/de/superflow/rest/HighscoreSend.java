@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.sql.Timestamp;
 
 /**
- * Created by Long on 16.06.2017.
+ * @author Phi Long Tran
+ *
+ * This class is used to send to the mobile app the highscore info
  */
 
 public class HighscoreSend {
